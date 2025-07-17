@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Import Books from Frappe API</h2>
+<form id="importForm">
+  <input type="text" id="title" placeholder="Title" />
+  <input type="number" id="num_books" value="20" />
+  <button type="submit">Import</button>
+</form>
+
+<script>
+document.getElementById('importForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const title = document.getElementById('title').value;
+  const num_books = document.getElementById('num_books').value;
+  console.log("Importing books:", title, num_books);
+
+  const response = await fetch('/import', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title, num_books })
+  });
+
+  const result = await response.json();
+  console.log("Response:", result);
+  alert(result.message || result.error);
+});
+</script>
+{% endblock %}

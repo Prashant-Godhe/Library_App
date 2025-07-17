@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Library Members</h2>
+
+<a href="{{ url_for('add_member') }}" class="btn btn-success mb-3">Add Member</a>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Outstanding Debt</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for member in members %}
+    <tr>
+      <td>{{ member['name'] }}</td>
+      <td>{{ member['email'] }}</td>
+      <td>{{ member['phone'] }}</td>
+      <td>₹{{ member['debt'] }}</td>
+      <td>
+        <a href="{{ url_for('edit_member', id=member['id']) }}" class="btn btn-primary btn-sm">Edit</a>
+        <a href="{{ url_for('delete_member', id=member['id']) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

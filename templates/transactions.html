@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Transactions</h2>
+
+<a href="{{ url_for('assign_transaction') }}" class="btn btn-primary mb-3">Assign Book</a>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Member</th>
+      <th>Issue Date</th>
+      <th>Days</th>
+      <th>Return By</th>
+      <th>Status</th>
+      <th>Penalty</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for txn in transactions %}
+    <tr>
+      <td>{{ txn['book_title'] }}</td>
+      <td>{{ txn['member_name'] }}</td>
+      <td>{{ txn['issue_date'] }}</td>
+      <td>{{ txn['days'] }}</td>
+      <td>{{ txn['return_date'] if txn['return_date'] else '-' }}</td>
+      <td>{{ txn['status'] }}</td>
+      <td>₹{{ txn['penalty'] }}</td>
+      <td>
+        {% if txn['status'] != 'Returned' %}
+          <form method="POST" action="{{ url_for('mark_as_received', id=txn['id']) }}" style="display:inline">
+            <button type="submit" class="btn btn-sm btn-success">Received Back</button>
+          </form>
+          <form method="POST" action="{{ url_for('add_penalty', id=txn['id']) }}" style="display:inline">
+            <button type="submit" class="btn btn-sm btn-danger">Hit Penalty</button>
+          </form>
+        {% else %}
+          ✅
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

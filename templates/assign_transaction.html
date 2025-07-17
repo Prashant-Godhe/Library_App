@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Assign Book to Member</h2>
+
+<form method="POST">
+  <div class="mb-3">
+    <label for="member_id" class="form-label">Select Member</label>
+    <select class="form-select" name="member_id" required>
+      {% for m in members %}
+      <option value="{{ m['id'] }}">{{ m['name'] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="book_id" class="form-label">Select Book</label>
+    <select class="form-select" name="book_id" required>
+      {% for b in books %}
+      <option value="{{ b['id'] }}">{{ b['title'] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="days" class="form-label">Days (how long to issue)</label>
+    <input type="number" class="form-control" name="days" min="1" required>
+  </div>
+
+  <div class="mb-3">
+  <label for="amount_per_day" class="form-label">Amount Per Day (₹)</label>
+  <input type="number" class="form-control" name="amount_per_day" step="0.01" required>
+  </div>
+
+  <button type="submit" class="btn btn-success">Assign</button>
+  <a href="{{ url_for('transactions') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

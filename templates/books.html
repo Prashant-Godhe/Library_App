@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Books</h2>
+
+<a href="{{ url_for('add_book') }}" class="btn btn-success mb-3">Add New Book</a>
+<a href="{{ url_for('import_books') }}" class="btn btn-info mb-3">Import Books</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Authors</th>
+      <th>ISBN</th>
+      <th>Publisher</th>
+      <th>Pages</th>
+      <th>Rent Fee</th>
+      <th>Quantity</th>
+      <th>Available</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <td>{{ book['title'] }}</td>
+      <td>{{ book['authors'] }}</td>
+      <td>{{ book['isbn'] }}</td>
+      <td>{{ book['publisher'] }}</td>
+      <td>{{ book['pages'] }}</td>
+      <td>₹{{ book['rent_fee'] }}</td>
+      <td>{{ book['quantity'] }}</td>
+      <td>{{ book['available_quantity'] }}</td>
+      <td>
+        <a href="{{ url_for('edit_book', id=book['id']) }}" class="btn btn-sm btn-primary">Edit</a>
+        <a href="{{ url_for('delete_book', id=book['id']) }}" class="btn btn-danger">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
